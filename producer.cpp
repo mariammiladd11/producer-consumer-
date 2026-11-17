@@ -3,9 +3,27 @@
 #include <random>
 #include <thread>
 #include <chrono>
-
+#include <fcntl.h>
+#include <sys/mman.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#include <semaphore.h>
+#include <cstring>
 
 using namespace std;
+struct PriceEntry {
+    char commodity[11];
+    double price;
+};
+struct SharedData {
+    sem_t empty;
+    sem_t full;
+    sem_t mutex;
+
+    int in;
+    int out;
+    int bufferSize;
+};
 
 int main(int argc, char* argv[]) {
 
